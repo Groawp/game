@@ -39,7 +39,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for user registration
       await storage.createLog({
-        user: user.name,
+        user_name: user.name,
         action: "REGISTER",
         details: "New user registered"
       });
@@ -74,7 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for user login
       await storage.createLog({
-        user: user.name,
+        user_name: user.name,
         action: "LOGIN",
         details: "User logged in"
       });
@@ -100,9 +100,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for user deletion
       await storage.createLog({
-        user: "Admin",
+        user_name: "Admin",
         action: "REMOVE",
-        details: `Removed user: ${user.name}`
+        details: `Removed user_name: ${user.name}`
       });
       
       res.status(204).send();
@@ -128,7 +128,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for event creation
       await storage.createLog({
-        user: "Admin",
+        user_name: "Admin",
         action: "ADD",
         details: `Added new event: ${event.title}`
       });
@@ -157,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for event deletion
       await storage.createLog({
-        user: "Admin",
+        user_name: "Admin",
         action: "REMOVE",
         details: `Removed event: ${event.title}`
       });
@@ -202,7 +202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for voting
       await storage.createLog({
-        user: user.name,
+        user_name: user.name,
         action: "VOTE",
         details: `Signed up for ${event.title}${players}`
       });
@@ -243,7 +243,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Add log entry for unvoting
       await storage.createLog({
-        user: user.name,
+        user_name: user.name,
         action: "UNVOTE",
         details: `Cancelled signup for ${event.title}`
       });
@@ -370,7 +370,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (updatedEvent) {
         // Add log entry for event update
         await storage.createLog({
-          user: user.name,
+          user_name: user.name,
           action: "UPDATE",
           details: `Updated event: ${updatedEvent.title}`,
           timestamp: new Date()
@@ -450,13 +450,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (updatedUser) {
         // Add log entry for balance update
         await storage.createLog({
-          user: admin.name,
+          user_name: admin.name,
           action: "UPDATE",
           details: `Updated ${user.name}'s balance to ${balance} points`,
           timestamp: new Date()
         });
         
-        res.status(200).json({ message: "Balance updated successfully", user: updatedUser });
+        res.status(200).json({ message: "Balance updated successfully", user_name: updatedUser });
       } else {
         res.status(400).json({ message: "Failed to update balance" });
       }

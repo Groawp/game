@@ -13,7 +13,7 @@ export interface IStorage {
   getUsers(): Promise<User[]>;
   getUserById(id: number): Promise<User | undefined>;
   getUserByName(name: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createUser(user_name: InsertUser): Promise<User>;
   deleteUser(id: number): Promise<boolean>;
   updateUserBalance(userId: number, balance: number): Promise<User | undefined>;
   
@@ -57,7 +57,7 @@ export class DatabaseStorage implements IStorage {
     return result.length ? result[0] : undefined;
   }
 
-  async createUser(user: InsertUser): Promise<User> {
+  async createUser(user_name: InsertUser): Promise<User> {
     const result = await db.insert(users).values({
       name: user.name,
       password: user.password,
@@ -378,7 +378,7 @@ export class DatabaseStorage implements IStorage {
       // Create a log entry for the payment update
       const action = paid ? "Payment Made" : "Payment Cancelled";
       await this.createLog({
-        user: user.name,
+        user_name: user.name,
         action,
         details: `${action} for game: ${event.title}`
       });
