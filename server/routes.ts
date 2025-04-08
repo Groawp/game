@@ -1,10 +1,10 @@
 import express, { type Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import bcrypt from "bcrypt";
 import { insertUserSchema, insertEventSchema, insertLogSchema } from "@shared/schema";
 import { z } from "zod";
 
-const PREDEFINED_PASSWORD = "eventpass";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API router with prefix /api
@@ -25,9 +25,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const data = insertUserSchema.parse(req.body);
       
       // Check if predefined password is correct
-      if (data.password !== PREDEFINED_PASSWORD) {
-        return res.status(400).json({ message: "Invalid password" });
-      }
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+data.password = hashedPassword;
       
       // Check if username already exists
       const existingUser = await storage.getUserByName(data.name);
